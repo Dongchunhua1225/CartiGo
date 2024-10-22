@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    nacos:
+      server-addr: 192.168.49.128:8848
+      username: nacos
+      password: nacos
+      discovery: # 服务注册配置
+        namespace: 0f57359b-97d3-4223-878b-44e5aea53187
+        group: A_GROUP
+        service: ${spring.application.name}
+      config: # 配置中心配置
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        group: ${spring.cloud.nacos.discovery.group}
+        prefix: ${spring.application.name}
+        file-extension: yml
+  # 多环境配置
+  profiles:
+    active: dev
+
+#共享配置
+#server:
+#  port: 80
+#spring:
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+#          # 开启动态路由
+#          enabled: true
+#  redis:
+#    host: ${redis-host}
+#    port: 6379
+#    password: ${common-pwd}
+## 自定义的方向白名单路径
+#gateway:
+#  white:
+#    allow-urls:
+#      - /doLogin
+#      - /free
+
+########### 新版本的设置
+#spring:
+#  application:
+#    name: gateway-server-dev #微服务名称
+#  cloud:
+#    nacos:
+#      username: nacos
+#      password: nacos
+#      discovery:
+#        server-addr: 192.168.49.128:8848
+#      config: #nacos配置中心
+#        server-addr: 192.168.49.128:8848
+#        namespace: 0f57359b-97d3-4223-878b-44e5aea53187 #${spring.cloud.nacos.discovery.namespace}
+#        file-extension: yml
+#        group: A_GROUP #${spring.cloud.nacos.discovery.group}
+#gateway:
+#  white:
+#    allow-urls:
+#      - /doLogin #项目的登陆路径
+#      - /free #example路径
