@@ -65,6 +65,14 @@
         <dependency>
             <groupId>com.powernode</groupId>
             <artifactId>common-base</artifactId>
+<!--            排除当前依赖中指定的依赖-->
+<!--            排除security，不然请求过不了网关，她每次都验证-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-security</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

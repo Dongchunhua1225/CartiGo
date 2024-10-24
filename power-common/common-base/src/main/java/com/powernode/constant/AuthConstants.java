@@ -11,4 +11,25 @@ public interface AuthConstants {
 
     //token值存放在redis中的前缀
     String LOGIN_TOKEN_PREFIX = "login_token";
+
+    //登录url
+    String LOGIN_URL = "/doLogin";
+
+    //登出url
+    String LOGOUT_URL = "/doLogout";
+
+    //登录类型
+    String LOGIN_TYPE = "loginType";
+
+    //登录类型值：商城后台管理系统用户
+    String SYS_USER_LOGIN = "sysUserLogin";
+
+    //登录类型值：商城用户购物系统
+    String MEMBER_LOGIN = "memberLogin";
+
+    //token的有效时间，单位“秒”，4个小时
+    Long TOKEN_TIME = 14400L;
+
+    //token的阈值：3600s，一个小时
+    Long TOKEN_EXPIRE_THRESHOLD_TIME = 60*60L;
 }
