@@ -1,6 +1,8 @@
 package com.powernode.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.powernode.domain.SysMenu;
@@ -11,12 +13,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@CacheConfig(cacheNames = "com.powernode.service.impl.SysMenuServiceImpl")
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService{
 
     @Autowired
     private SysMenuMapper sysMenuMapper;
 
     @Override
+    @Cacheable(key = "#loginUserId")
     public Set<SysMenu> queryUserMenuListByUserId(Long loginUserId) {
         Set<SysMenu> menus = sysMenuMapper.selectUserMenuListByUserId(loginUserId);
 
