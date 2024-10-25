@@ -25,27 +25,32 @@
       <ProjectProfile>
         <option name="addSerializeUid" value="true" />
         <option name="database" value="MySql" />
+        <option name="generateService" value="true" />
+        <option name="generateServiceInterface" value="true" />
         <option name="javaMapperPackage" value="com.powernode.mapper" />
-        <option name="javaMapperPath" value="D:\power-mall\power-mall\cloud-iaas\auth-server\src\main\java" />
+        <option name="javaMapperPath" value="D:\power-mall\power-mall\power-business\manager-service\src\main\java" />
         <option name="javaModelPackage" value="com.powernode.domain" />
-        <option name="javaModelPath" value="D:\power-mall\power-mall\cloud-iaas\auth-server\src\main\java" />
+        <option name="javaModelPath" value="D:\power-mall\power-mall\power-business\manager-service\src\main\java" />
         <option name="lastDatabaseCrudChooseModuleName" value="common-base" />
         <option name="lombokAllArgConstructor" value="true" />
         <option name="lombokBuilderAnnotation" value="true" />
         <option name="lombokDataAnnotation" value="true" />
         <option name="lombokNoArgsConstructor" value="true" />
-        <option name="mapperAnnotaion" value="true" />
         <option name="moduleNameToPackageAndPathMap">
           <map>
             <entry key="common-base">
               <value>
                 <UserPackageAndPathInfoByModule>
                   <option name="javaMapperPackage" value="com.powernode.mapper" />
-                  <option name="javaMapperPath" value="D:\power-mall\power-mall\cloud-iaas\auth-server\src\main\java" />
+                  <option name="javaMapperPath" value="D:\power-mall\power-mall\power-business\manager-service\src\main\java" />
                   <option name="javaModelPacakge" value="com.powernode.domain" />
-                  <option name="javaModelPath" value="D:\power-mall\power-mall\cloud-iaas\auth-server\src\main\java" />
+                  <option name="javaModelPath" value="D:\power-mall\power-mall\power-business\manager-service\src\main\java" />
+                  <option name="javaServiceInterfacePackage" value="com.powernode.service" />
+                  <option name="javaServiceInterfacePath" value="D:\power-mall\power-mall\power-business\manager-service\src\main\java" />
+                  <option name="javaServicePackage" value="com.powernode.serviceimpl" />
+                  <option name="javaServicePath" value="D:\power-mall\power-mall\power-business\manager-service\src\main\java" />
                   <option name="xmlPackage" value="mapper" />
-                  <option name="xmlPath" value="D:\power-mall\power-mall\cloud-iaas\auth-server\src\main\resources" />
+                  <option name="xmlPath" value="D:\power-mall\power-mall\power-business\manager-service\src\main\java" />
                 </UserPackageAndPathInfoByModule>
               </value>
             </entry>
@@ -264,8 +269,6 @@
                   <option name="generatedKey" value="id" />
                   <option name="javaModelName" value="SysLog" />
                   <option name="moduleName" value="common-base" />
-                  <option name="sequenceColumn" value="" />
-                  <option name="sequenceId" value="" />
                   <option name="useActualColumnName" value="false" />
                 </TableGenerateConfig>
               </value>
@@ -276,8 +279,6 @@
                   <option name="generatedKey" value="menu_id" />
                   <option name="javaModelName" value="SysMenu" />
                   <option name="moduleName" value="common-base" />
-                  <option name="sequenceColumn" value="" />
-                  <option name="sequenceId" value="" />
                   <option name="useActualColumnName" value="false" />
                 </TableGenerateConfig>
               </value>
@@ -288,8 +289,6 @@
                   <option name="generatedKey" value="role_id" />
                   <option name="javaModelName" value="SysRole" />
                   <option name="moduleName" value="common-base" />
-                  <option name="sequenceColumn" value="" />
-                  <option name="sequenceId" value="" />
                   <option name="useActualColumnName" value="false" />
                 </TableGenerateConfig>
               </value>
@@ -300,8 +299,6 @@
                   <option name="generatedKey" value="id" />
                   <option name="javaModelName" value="SysRoleMenu" />
                   <option name="moduleName" value="common-base" />
-                  <option name="sequenceColumn" value="" />
-                  <option name="sequenceId" value="" />
                   <option name="useActualColumnName" value="false" />
                 </TableGenerateConfig>
               </value>
@@ -322,8 +319,6 @@
                   <option name="generatedKey" value="id" />
                   <option name="javaModelName" value="SysUserRole" />
                   <option name="moduleName" value="common-base" />
-                  <option name="sequenceColumn" value="" />
-                  <option name="sequenceId" value="" />
                   <option name="useActualColumnName" value="false" />
                 </TableGenerateConfig>
               </value>
@@ -332,7 +327,7 @@
         </option>
         <option name="userMybatisPlus" value="true" />
         <option name="xmlMapperPackage" value="mapper" />
-        <option name="xmlMapperPath" value="D:\power-mall\power-mall\cloud-iaas\auth-server\src\main\resources" />
+        <option name="xmlMapperPath" value="D:\power-mall\power-mall\power-business\manager-service\src\main\java" />
       </ProjectProfile>
     </option>
   </component>
