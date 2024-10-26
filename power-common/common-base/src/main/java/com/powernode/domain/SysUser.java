@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
     * 系统用户
@@ -71,6 +73,11 @@ public class SysUser implements Serializable {
      */
     @TableField(value = "shop_id")
     private Long shopId;
+
+    ///////////////////////// 新增管理员 /////////////////////////
+    @TableField(exist = false)
+    @ApiModelProperty("角色id集合")
+    private List<Long> roleIdList;
 
     private static final long serialVersionUID = 1L;
 

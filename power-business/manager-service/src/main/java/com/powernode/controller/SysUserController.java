@@ -13,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 //系统管理员控制层
 @Api("系统用户接口管理")
@@ -60,5 +57,17 @@ public class SysUserController {
         );
 
         return Result.success(page);
+    }
+
+
+    //新增管理员
+    @ApiOperation("新增管理员")
+    @PostMapping
+    @PreAuthorize("hasAuthority('sys:user:save')")
+    public Result<String> saveSysUser(@RequestBody SysUser sysUser) {
+        Integer count = sysUserService.saveSysUser(sysUser);
+
+
+        return Result.handle(count > 0);
     }
 }

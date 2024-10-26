@@ -55,4 +55,12 @@ public class Result<T> implements Serializable {
     }
 
 
+    //处理用户的操作
+    public static Result<String> handle(Boolean flag) {
+        if(flag) {
+            return Result.success(null);
+        }
+
+        return Result.fail(BusinessEnum.OPERATION_FAIL);
+    }
 }
