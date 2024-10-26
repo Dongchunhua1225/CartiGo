@@ -7,7 +7,7 @@ public interface AuthConstants {
     String AUTHORIZATION = "Authorization";
 
     //token值的前缀
-    String BEARER = "bearer";
+    String BEARER = "bearer ";
 
     //token值存放在redis中的前缀
     String LOGIN_TOKEN_PREFIX = "login_token";

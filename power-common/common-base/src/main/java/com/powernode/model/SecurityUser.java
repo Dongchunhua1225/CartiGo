@@ -66,46 +66,46 @@ public class SecurityUser implements UserDetails {
     //权限有可能涉及到一个用户拥有多个权限
     //这时候就要对这些权限进行分割
     //example: "Permission 1, Permission2"
-    public Set<String> setPerms() {
-        HashSet<String> finalPermsSet = new HashSet<>();
-        //循环便利用户权限集合
-        perms.forEach(perm -> {
-            //判断是否包含括号
-            if(perms.contains(",")) {
-                //包含的话就得分割
-                String[] curr = perm.split(",");
-
-                //循环这个当前权限arr
-                for(String currPerms : curr) {
-                    finalPermsSet.add(currPerms);
-                }
-
-            } else {
-                //不包含的话直接加
-                finalPermsSet.add(perm);
-            }
-        });
-
-        return finalPermsSet;
-    }
-
-
-//    public void setPerms(Set<String> perms) {
+//    public Set<String> setPerms() {
 //        HashSet<String> finalPermsSet = new HashSet<>();
+//        //循环便利用户权限集合
 //        perms.forEach(perm -> {
-//            // 判断权限记录是否包含","号
-//            if (perm.contains(",")) {
-//                // 根据","号分隔
-//                String[] realPerms = perm.split(",");
-//                // 循环遍历获取每一个权限，存放到最终权限集合中
-//                for (String realPerm : realPerms) {
-//                    finalPermsSet.add(realPerm);
+//            //判断是否包含括号
+//            if(perms.contains(",")) {
+//                //包含的话就得分割
+//                String[] curr = perm.split(",");
+//
+//                //循环这个当前权限arr
+//                for(String currPerms : curr) {
+//                    finalPermsSet.add(currPerms);
 //                }
+//
 //            } else {
+//                //不包含的话直接加
 //                finalPermsSet.add(perm);
 //            }
 //        });
-//        this.perms = finalPermsSet;
+//
+//        return finalPermsSet;
 //    }
+
+
+    public void setPerms(Set<String> perms) {
+        HashSet<String> finalPermsSet = new HashSet<>();
+        perms.forEach(perm -> {
+            // 判断权限记录是否包含","号
+            if (perm.contains(",")) {
+                // 根据","号分隔
+                String[] realPerms = perm.split(",");
+                // 循环遍历获取每一个权限，存放到最终权限集合中
+                for (String realPerm : realPerms) {
+                    finalPermsSet.add(realPerm);
+                }
+            } else {
+                finalPermsSet.add(perm);
+            }
+        });
+        this.perms = finalPermsSet;
+    }
 
 }

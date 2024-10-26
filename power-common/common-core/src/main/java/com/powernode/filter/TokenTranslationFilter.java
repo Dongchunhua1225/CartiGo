@@ -52,7 +52,10 @@ public class TokenTranslationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(authorizationValue)) {
             //获取token
             //这个token就是在AuthConfig里面生成的json格式，放进redis的token
-            String token = authorizationValue.replaceFirst(AuthConstants.LOGIN_TOKEN_PREFIX, "");
+            String token = authorizationValue.replaceFirst(AuthConstants.BEARER, "");
+
+            System.out.println("token: " + token);
+
             //判断这个token是够有值
             if (StringUtils.hasText(token)) {
 
@@ -70,6 +73,8 @@ public class TokenTranslationFilter extends OncePerRequestFilter {
                 String userJson = stringRedisTemplate.opsForValue().get(AuthConstants.LOGIN_TOKEN_PREFIX + token);
                 //将json格式字符串用户认证信息转换为认证用户对象
                 SecurityUser securityUser = JSONObject.parseObject(userJson, SecurityUser.class);
+
+                System.out.println("security User" + securityUser);
 
                 //处理认证对象权限
                 Set<SimpleGrantedAuthority> collect = securityUser.getPerms().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
