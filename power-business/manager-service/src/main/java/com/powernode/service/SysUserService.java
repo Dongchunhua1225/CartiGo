@@ -6,4 +6,7 @@ public interface SysUserService extends IService<SysUser>{
 
     //新增管理员
     Integer saveSysUser(SysUser sysUser);
+
+    //查询系统管理员信息
+    SysUser querySysUserInfoByUserId(Long id);
 }
