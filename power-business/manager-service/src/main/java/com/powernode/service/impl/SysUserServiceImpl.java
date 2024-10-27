@@ -151,4 +151,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         return sysUserMapper.updateById(sysUser);
     }
+
+    //批量/单个删除管理员
+        ////1.删除原管理员与角色的关联信息
+        //2.删除原管理员信息
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean removeSysUserListByUserIds(List<Long> userIds) {
+        //批量/单个删除管理员和角色的关系
+        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
+                .in(SysUserRole::getUserId, userIds));
+
+        //批量/单个删除管理员
+        return sysUserMapper.deleteBatchIds(userIds) == userIds.size();
+    }
 }
