@@ -9,4 +9,7 @@ public interface SysUserService extends IService<SysUser>{
 
     //查询系统管理员信息
     SysUser querySysUserInfoByUserId(Long id);
+
+    //修改管理员信息
+    Integer modifySysUserInfo(SysUser sysUser);
 }

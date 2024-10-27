@@ -78,4 +78,13 @@ public class SysUserController {
 
         return Result.success(sysUser);
     }
+
+
+    @ApiOperation("修改管理员信息")
+    @PutMapping
+    @PreAuthorize("hasAuthority('sys:user:update')")
+    public Result modifySysUserInfo(@RequestBody SysUser sysUser) {
+        Integer count = sysUserService.modifySysUserInfo(sysUser);
+        return Result.handle(count > 0);
+    }
 }

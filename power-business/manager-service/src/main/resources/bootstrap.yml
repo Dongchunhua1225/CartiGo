@@ -19,6 +19,10 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
     active: dev
+mybatis-plus:
+  global-config:
+    db-config:
+      update-strategy: not_empty #全局修改MyBatis字段更新策略
 
 #mybatis-plus:
 #  global-config:
