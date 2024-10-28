@@ -86,4 +86,12 @@ public class SysMenuController {
         Boolean updated = sysMenuService.modifySysMenu(sysMenu);
         return Result.handle(updated);
     }
+
+    @ApiOperation("删除菜单权限")
+    @DeleteMapping("{menuId}")
+    @PreAuthorize("hasAuthority('sys:menu:delete')")
+    public Result<String> removeSysMenu(@PathVariable Long menuId) {
+        Boolean removed = sysMenuService.removeSysMenuById(menuId);
+        return Result.handle(removed);
+    }
 }

@@ -19,4 +19,7 @@ public interface SysMenuService extends IService<SysMenu>{
 
     //修改菜单权限信息
     Boolean modifySysMenu(SysMenu sysMenu);
+
+    //删除菜单权限
+    Boolean removeSysMenuById(Long menuId);
 }

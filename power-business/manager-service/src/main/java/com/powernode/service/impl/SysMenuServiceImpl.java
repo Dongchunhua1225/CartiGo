@@ -1,8 +1,11 @@
 package com.powernode.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.powernode.constant.ManagerConstant;
 import com.powernode.domain.SysMenu;
+import com.powernode.ex.handler.BusinessException;
 import com.powernode.mapper.SysMenuMapper;
 import com.powernode.service.SysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,12 +64,47 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return sysMenuMapper.updateById(sysMenu) > 0;
     }
 
+    //删除菜单权限
+    @Override
+    @CacheEvict(key = ManagerConstant.SYS_ALL_MENU_KEY)
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean removeSysMenuById(Long menuId) {
+        //根据菜单id查询子菜单集合
+        List<SysMenu> list = sysMenuMapper.selectList(new LambdaQueryWrapper<SysMenu>()
+                .eq(SysMenu::getParentId, menuId));
+
+        if(CollectionUtil.isNotEmpty(list) && list.size() != 0) {
+            //包含子节点 --> 不允许删除
+            //不包含 --> 允许删除
+            throw new BusinessException("当前菜单包含子菜单，不允许删除");
+        }
+
+        return sysMenuMapper.deleteById(menuId) > 0;
+    }
+
 
     /**
      * 将集合转换为树结构
      * @return
      */
-        //1. 已知菜单深度 <= 2
+    //2. 未知菜单深度
+    private Set<SysMenu> transformTree(Set<SysMenu> menus, long pid) {
+        //从菜单集合中获取根节点集合
+        Set<SysMenu> roots = menus.stream()
+                .filter(m -> m.getParentId().equals(pid))
+                .collect(Collectors.toSet());
+
+        //循环节点集合
+        //小小递归拿下
+        roots.forEach(r -> r.setList(transformTree(menus, r.getMenuId())));
+
+        return roots;
+    }
+}
+
+
+
+//1. 已知菜单深度 <= 2
 //    private Set<SysMenu> transformTree(Set<SysMenu> menus, long pid) {
 //        //从菜单集合中获取根节点集合
 //        Set<SysMenu> roots = menus.stream()
@@ -85,18 +123,3 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 //
 //        return roots;
 //    }
-
-    //2. 未知菜单深度
-    private Set<SysMenu> transformTree(Set<SysMenu> menus, long pid) {
-        //从菜单集合中获取根节点集合
-        Set<SysMenu> roots = menus.stream()
-                .filter(m -> m.getParentId().equals(pid))
-                .collect(Collectors.toSet());
-
-        //循环节点集合
-        //小小递归拿下
-        roots.forEach(r -> r.setList(transformTree(menus, r.getMenuId())));
-
-        return roots;
-    }
-}
