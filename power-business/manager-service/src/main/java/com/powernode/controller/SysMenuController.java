@@ -3,15 +3,14 @@ package com.powernode.controller;
 import com.powernode.domain.SysMenu;
 import com.powernode.model.Result;
 import com.powernode.service.SysMenuService;
+import com.powernode.service.SysRoleService;
 import com.powernode.util.AuthUtils;
 import com.powernode.vo.MenuAndAuth;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -27,6 +26,9 @@ public class SysMenuController {
 
     @Autowired
     private SysMenuService sysMenuService;
+
+    @Autowired
+    private SysRoleService sysRoleService;
 
     //sys/menu/nav
     @ApiOperation("查询用户的菜单权限和操作权限")
@@ -59,5 +61,14 @@ public class SysMenuController {
         List<SysMenu> sysMenus = sysMenuService.queryAllSysMenuList();
         return Result.success(sysMenus);
     }
+
+    @ApiOperation("新增权限")
+    @PostMapping
+    @PreAuthorize("hasAuthority('sys:menu:save')")
+    public Result<String> saveSysMenu(@RequestBody SysMenu sysMenu) {
+        Boolean saved = sysMenuService.saveSysMenu(sysMenu);
+        return Result.handle(saved);
+    }
+
 
 }

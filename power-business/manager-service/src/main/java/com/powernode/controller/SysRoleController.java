@@ -71,4 +71,13 @@ public class SysRoleController {
         return Result.handle(updated);
     }
 
+
+    @ApiOperation("批量/单个删除角色")
+    @DeleteMapping
+    @PreAuthorize("hasAuthority('sys:role:delete')")
+    public Result<String> removeSysRole(@RequestBody List<Long> roleIdList) {
+        Boolean removed = sysRoleService.removeSysRoleListByIds(roleIdList);
+        return Result.handle(removed);
+    }
+
 }

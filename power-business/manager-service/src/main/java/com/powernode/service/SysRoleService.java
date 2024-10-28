@@ -18,4 +18,7 @@ public interface SysRoleService extends IService<SysRole>{
 
     //修改角色信息
     Boolean modifySysRole(SysRole sysRole);
+
+//    批量/单个删除角色
+    Boolean removeSysRoleListByIds(List<Long> roleIdList);
 }

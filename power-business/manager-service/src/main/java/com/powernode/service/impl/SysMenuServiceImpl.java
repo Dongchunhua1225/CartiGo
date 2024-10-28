@@ -1,14 +1,16 @@
 package com.powernode.service.impl;
 
-import com.powernode.constant.ManagerConstant;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.powernode.constant.ManagerConstant;
 import com.powernode.domain.SysMenu;
 import com.powernode.mapper.SysMenuMapper;
 import com.powernode.service.SysMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -35,6 +37,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Cacheable(key = ManagerConstant.SYS_ALL_MENU_KEY)
     public List<SysMenu> queryAllSysMenuList() {
         return baseMapper.selectList(null);
+    }
+
+    //新增权限
+    @Override
+    @CacheEvict(key = ManagerConstant.SYS_ALL_MENU_KEY)
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean saveSysMenu(SysMenu sysMenu) {
+        return sysMenuMapper.insert(sysMenu) > 0;
     }
 
 

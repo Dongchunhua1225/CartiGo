@@ -13,4 +13,7 @@ public interface SysMenuService extends IService<SysMenu>{
 
     //查询系统所有权限集合
     List<SysMenu> queryAllSysMenuList();
+
+    //新增权限
+    Boolean saveSysMenu(SysMenu sysMenu);
 }

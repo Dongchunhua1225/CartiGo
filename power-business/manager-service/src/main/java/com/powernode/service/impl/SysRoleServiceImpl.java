@@ -130,4 +130,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
         return sysRoleMapper.updateById(sysRole) > 0;
     }
+
+    //批量/单个删除角色
+    @Override
+    @CacheEvict(key = ManagerConstant.SYS_ALL_ROLE_KEY)
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean removeSysRoleListByIds(List<Long> roleIdList) {
+        // 批量或单个删除角色与权限关系集合
+        sysRoleMenuMapper.delete(new LambdaQueryWrapper<SysRoleMenu>()
+                .in(SysRoleMenu::getRoleId, roleIdList));
+
+        // 批量或单个删除角色
+        return sysRoleMapper.deleteBatchIds(roleIdList) == roleIdList.size();
+    }
 }
