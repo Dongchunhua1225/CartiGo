@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,6 +44,15 @@ public class SysRoleController {
                 .like(StringUtils.hasText(roleName), SysRole::getRoleName, roleName) // 只要是用户输入的 就是模糊查询
                 .orderByDesc(SysRole::getCreateTime));
         return Result.success(page);
+    }
+
+    //新增角色
+    @ApiOperation("新增角色")
+    @PostMapping
+    @PreAuthorize("hasAuthority('sys:role:save')")
+    public Result saveSysRole(@RequestBody SysRole sysRole) {
+        Boolean saved = sysRoleService.saveSysRole(sysRole);
+        return Result.success(saved);
     }
 
 }

@@ -9,4 +9,7 @@ public interface SysRoleService extends IService<SysRole>{
 
     //查询系统所有角色
     List<SysRole> querySysRoleList();
+
+    //新增角色
+    Boolean saveSysRole(SysRole sysRole);
 }
