@@ -12,4 +12,7 @@ public interface SysRoleService extends IService<SysRole>{
 
     //新增角色
     Boolean saveSysRole(SysRole sysRole);
+
+    //根据标识查询角色信息
+    SysRole querySysRoleInfoByRoleId(Long roleId);
 }

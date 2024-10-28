@@ -55,4 +55,13 @@ public class SysRoleController {
         return Result.success(saved);
     }
 
+    @ApiOperation("根据标识查询角色信息")
+    @GetMapping("info/{roleId}")
+    @PreAuthorize("hasAuthority('sys:role:info')")
+    public Result<SysRole> loadSysRoleInfo(@PathVariable Long roleId) {
+        SysRole sysRole = sysRoleService.querySysRoleInfoByRoleId(roleId);
+        return Result.success(sysRole);
+    }
+
+
 }

@@ -7,6 +7,7 @@ import com.powernode.constant.ManagerConstant;
 import com.powernode.domain.SysRole;
 import com.powernode.domain.SysRoleMenu;
 import com.powernode.mapper.SysRoleMapper;
+import com.powernode.mapper.SysRoleMenuMapper;
 import com.powernode.service.SysRoleMenuService;
 import com.powernode.service.SysRoleService;
 import com.powernode.util.AuthUtils;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @CacheConfig(cacheNames = "com.powernode.service.impl.SysRoleServiceImpl")
@@ -30,6 +32,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Autowired
     private SysRoleMenuService sysRoleMenuService;
+
+    @Autowired
+    private SysRoleMenuMapper sysRoleMenuMapper;
 
     //查询的是系统中所有的角色数据（全量查询）
         //全量查询一般是要讲数据存放到缓存中
@@ -76,5 +81,25 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
 
         return count > 0;
+    }
+
+//    根据标识查询角色信息
+    @Override
+    public SysRole querySysRoleInfoByRoleId(Long roleId) {
+        //根绝角色id查询角色详情
+        SysRole sysRole = sysRoleMapper.selectById(roleId);
+
+        //根据角色id查询角色和权限的关系
+        List<SysRoleMenu> sysRoleMenuList = sysRoleMenuMapper.selectList(new LambdaQueryWrapper<SysRoleMenu>()
+                .eq(SysRoleMenu::getRoleId, roleId));
+        //判断是否有值
+        if(CollectionUtil.isNotEmpty(sysRoleMenuList) && sysRoleMenuList.size() != 0) {
+            //角色和perm关系有值
+            //从角色和权限关系集合中获取权限id集合
+            List<Long> menuIdList = sysRoleMenuList.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
+            sysRole.setMenuIdList(menuIdList);
+        }
+
+        return sysRole;
     }
 }
