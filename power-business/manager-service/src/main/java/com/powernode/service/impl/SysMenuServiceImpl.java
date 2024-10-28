@@ -1,5 +1,6 @@
 package com.powernode.service.impl;
 
+import com.powernode.constant.ManagerConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -9,6 +10,7 @@ import com.powernode.domain.SysMenu;
 import com.powernode.mapper.SysMenuMapper;
 import com.powernode.service.SysMenuService;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         //将拿到的菜单权限集合转换为树结构（既数据结构应该转换为层级关系）
         return transformTree(menus, 0L);
+    }
+
+
+    @Override
+    @Cacheable(key = ManagerConstant.SYS_ALL_MENU_KEY)
+    public List<SysMenu> queryAllSysMenuList() {
+        return baseMapper.selectList(null);
     }
 
 
