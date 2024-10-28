@@ -15,4 +15,7 @@ public interface SysRoleService extends IService<SysRole>{
 
     //根据标识查询角色信息
     SysRole querySysRoleInfoByRoleId(Long roleId);
+
+    //修改角色信息
+    Boolean modifySysRole(SysRole sysRole);
 }

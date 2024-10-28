@@ -102,4 +102,32 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
         return sysRole;
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean modifySysRole(SysRole sysRole) {
+        //删除原有权限
+        Long roleId = sysRole.getRoleId();
+        sysRoleMenuMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getRoleId, roleId));
+
+        //获取角色对应的权限id集合
+        List<Long> menuIdList = sysRole.getMenuIdList();
+        //床架角色与权限关系集合对象
+        ArrayList<SysRoleMenu> sysRoleMenuList = new ArrayList<>();
+        //判断这个集合是否有值
+        if(CollectionUtil.isNotEmpty(menuIdList) && menuIdList.size() != 0) {
+            menuIdList.forEach(menuId -> {
+                //创建角色与权限关系记录
+                SysRoleMenu sysRoleMenu = new SysRoleMenu();
+                sysRoleMenu.setRoleId(roleId);
+                sysRoleMenu.setMenuId(menuId);
+                //收集权限与角色的关系记录
+                sysRoleMenuList.add(sysRoleMenu);
+            });
+            //批量添加角色与权限关系集合
+            sysRoleMenuService.saveBatch(sysRoleMenuList);
+        }
+
+        return sysRoleMapper.updateById(sysRole) > 0;
+    }
 }

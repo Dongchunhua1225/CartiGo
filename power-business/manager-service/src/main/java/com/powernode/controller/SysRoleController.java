@@ -63,5 +63,12 @@ public class SysRoleController {
         return Result.success(sysRole);
     }
 
+    @ApiOperation("修改角色信息")
+    @PutMapping
+    @PreAuthorize("hasAuthority('sys:role:update')")
+    public Result<String> modifySysRole(@RequestBody SysRole sysRole) {
+        Boolean updated = sysRoleService.modifySysRole(sysRole);
+        return Result.handle(updated);
+    }
 
 }
