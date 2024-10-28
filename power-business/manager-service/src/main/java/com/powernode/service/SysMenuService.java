@@ -16,4 +16,7 @@ public interface SysMenuService extends IService<SysMenu>{
 
     //新增权限
     Boolean saveSysMenu(SysMenu sysMenu);
+
+    //修改菜单权限信息
+    Boolean modifySysMenu(SysMenu sysMenu);
 }

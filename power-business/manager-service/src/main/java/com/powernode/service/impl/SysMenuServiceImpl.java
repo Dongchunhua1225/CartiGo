@@ -47,6 +47,20 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return sysMenuMapper.insert(sysMenu) > 0;
     }
 
+    //修改菜单权限信息
+    @Override
+    @CacheEvict(key = ManagerConstant.SYS_ALL_MENU_KEY)
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean modifySysMenu(SysMenu sysMenu) {
+        //获取菜单类型
+        Integer type = sysMenu.getType();
+
+        if(type == 0) {
+            sysMenu.setParentId(0L);
+        }
+        return sysMenuMapper.updateById(sysMenu) > 0;
+    }
+
 
     /**
      * 将集合转换为树结构

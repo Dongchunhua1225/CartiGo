@@ -70,5 +70,20 @@ public class SysMenuController {
         return Result.handle(saved);
     }
 
+    //根据标识查询菜单权限信息
+    @ApiOperation("根据id查询菜单权限信息")
+    @GetMapping("info/{menuId}")
+    @PreAuthorize("hasAuthority('sys:menu:info')")
+    public Result<SysMenu> loadSysMenuInfo(@PathVariable Long menuId) {
+        SysMenu sysMenu = sysMenuService.getById(menuId);
+        return Result.success(sysMenu);
+    }
 
+    @ApiOperation("修改菜单权限信息")
+    @PutMapping
+    @PreAuthorize("hasAuthority('sys:menu:update')")
+    public Result modifySysMenu(@RequestBody SysMenu sysMenu) {
+        Boolean updated = sysMenuService.modifySysMenu(sysMenu);
+        return Result.handle(updated);
+    }
 }
