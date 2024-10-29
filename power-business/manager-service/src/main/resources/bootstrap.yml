@@ -23,6 +23,12 @@ mybatis-plus:
   global-config:
     db-config:
       update-strategy: not_empty #全局修改MyBatis字段更新策略
+#aliyun:
+#  oss:
+#    endpoint: oss-us-west-1.aliyuncs.com
+#    bucketName: cartigo1
+#    accessKeyId: LTAI5tAw71uNSg95qkfqJbkS
+#    accessKeySecret: FwCxXmB2NcE7SjQzUKObiE5lgrJNUo
 
 #mybatis-plus:
 #  global-config:

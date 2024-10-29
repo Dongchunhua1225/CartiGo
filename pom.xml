@@ -35,6 +35,7 @@
         <springfox.version>3.0.0</springfox.version>
         <common-base.version>1.0-SNAPSHOT</common-base.version>
         <fastjson.version>1.2.80</fastjson.version>
+        <aliyun-sdk-oss.version>3.17.4</aliyun-sdk-oss.version>
     </properties>
 
 <!--    父工程必须要遵循2个要求：
@@ -126,6 +127,11 @@
                 <groupId>com.powernode</groupId>
                 <artifactId>common-base</artifactId>
                 <version>${common-base.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-sdk-oss.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
