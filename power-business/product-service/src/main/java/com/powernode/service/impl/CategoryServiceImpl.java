@@ -1,6 +1,7 @@
 package com.powernode.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.powernode.constant.ProductConstants;
@@ -97,5 +98,24 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return categoryMapper.updateById(category) > 0;
     }
 
-    //
+    //删除商品类目
+    @Override
+    @Caching(evict = {
+            @CacheEvict(key = ProductConstants.ALL_CATEGORY_LIST_KEY),
+            @CacheEvict(key = ProductConstants.FIRST_CATEGORY_LIST_KEY)
+    })
+    //如果一级类目包含子类目，则不可删除
+    public Boolean removeCategoryById(Long categoryId) {
+        // 根据类目标识查询子类目集合
+        List<Category> childList = categoryMapper.selectList(new LambdaQueryWrapper<Category>()
+                .eq(Category::getParentId, categoryId));
+        if (ObjectUtil.isNotEmpty(childList) && childList.size() != 0) {
+            // 说明：当前类目包含子类目，不可删除
+            throw new BusinessException("NOOOOOOOOOOOOOOOOOOOOOO, don't delete");
+        }
+
+        // 说明：当前类目不包含子类目
+        return categoryMapper.deleteById(categoryId) > 0;
+    }
+
 }

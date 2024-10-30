@@ -84,4 +84,18 @@ public class CategoryController {
         Boolean updated = categoryService.modifyCategory(category);
         return Result.handle(updated);
     }
+
+    /**
+     * 删除商品类目
+     *
+     * @param categoryId 商品类目标识
+     */
+    @ApiOperation("删除商品类目")
+    @DeleteMapping("{categoryId}")
+    @PreAuthorize("hasAuthority('prod:category:delete')")
+    public Result<String> removeCategory(@PathVariable Long categoryId) {
+        Boolean removed = categoryService.removeCategoryById(categoryId);
+        return Result.handle(removed);
+    }
+
 }

@@ -18,4 +18,7 @@ public interface CategoryService extends IService<Category>{
 
     //修改商品类目信息
     Boolean modifyCategory(Category category);
+
+    //删除商品类目
+    Boolean removeCategoryById(Long categoryId);
 }
