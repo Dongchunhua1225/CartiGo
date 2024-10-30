@@ -23,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryController {
 
-    //
     @Autowired
     private CategoryService categoryService;
 
@@ -35,6 +34,17 @@ public class CategoryController {
     @PreAuthorize("hasAuthority('prod:category:page')")
     public Result<List<Category>> loadAllCategoryList() {
         List<Category> list = categoryService.queryAllCategoryList();
+        return Result.success(list);
+    }
+
+    /**
+     * 查询系统商品一级类目
+     */
+    @ApiOperation("查询系统商品一级类目")
+    @GetMapping("listCategory")
+    @PreAuthorize("hasAuthority('prod:category:page')")
+    public Result<List<Category>> loadFirstCategoryList() {
+        List<Category> list = categoryService.queryFirstCategoryList();
         return Result.success(list);
     }
 }

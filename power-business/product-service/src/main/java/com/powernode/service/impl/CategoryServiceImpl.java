@@ -26,6 +26,18 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Cacheable(key = ProductConstants.ALL_CATEGORY_LIST_KEY)
     public List<Category> queryAllCategoryList(){
         return categoryMapper.selectList(new LambdaQueryWrapper<Category>()
-                .orderByDesc(Category::getCreateTime));
+                .orderByDesc(Category::getSeq));
+    }
+
+
+    //查询系统商品一级类目
+    @Override
+    @Cacheable(key = ProductConstants.FIRST_CATEGORY_LIST_KEY)
+    public List<Category> queryFirstCategoryList() {
+        return categoryMapper.selectList(new LambdaQueryWrapper<Category>()
+                .eq(Category::getParentId, 0) //一级类目就是parent id为0
+                .eq(Category::getStatus, 1)    //status == 1说明这个一级类目可以正常用；
+                                                    // == 0 说明这个一级类目此时不能用了
+                .orderByDesc(Category::getSeq));
     }
 }

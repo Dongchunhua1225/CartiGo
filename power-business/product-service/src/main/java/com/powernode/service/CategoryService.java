@@ -9,4 +9,7 @@ public interface CategoryService extends IService<Category>{
 
     //查询系统所有商品类目
     List<Category> queryAllCategoryList();
+
+    //查询系统商品一级类目
+    List<Category> queryFirstCategoryList();
 }
