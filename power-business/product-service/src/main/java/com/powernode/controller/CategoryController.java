@@ -58,4 +58,30 @@ public class CategoryController {
         Boolean saved = categoryService.saveCategory(category);
         return Result.handle(saved);
     }
+
+    /**
+     * 根据id查询商品类目详情
+     *
+     * @param categoryId 商品类目标识
+     */
+    @ApiOperation("根据id查询商品类目详情")
+    @GetMapping("info/{categoryId}")
+    @PreAuthorize("hasAuthority('prod:category:info')")
+    public Result<Category> loadCategoryInfo(@PathVariable Long categoryId) {
+        Category category = categoryService.getById(categoryId);
+        return Result.success(category);
+    }
+
+    /**
+     * 修改商品类目信息
+     *
+     * @param category 商品类目对象
+     */
+    @ApiOperation("修改商品类目信息")
+    @PutMapping
+    @PreAuthorize("hasAuthority('prod:category:update')")
+    public Result<String> modifyCategory(@RequestBody Category category) {
+        Boolean updated = categoryService.modifyCategory(category);
+        return Result.handle(updated);
+    }
 }

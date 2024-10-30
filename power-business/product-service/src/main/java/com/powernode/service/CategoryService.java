@@ -15,4 +15,7 @@ public interface CategoryService extends IService<Category>{
 
     //新增商品类目
     Boolean saveCategory(Category category);
+
+    //修改商品类目信息
+    Boolean modifyCategory(Category category);
 }
