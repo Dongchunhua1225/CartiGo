@@ -60,4 +60,16 @@ public class ProdTagController {
         Boolean saved = prodTagService.saveProdTag(prodTag);
         return Result.success(saved);
     }
+
+    /**
+     * 根据标识查询分组标签详情
+     * @param tagId 分组标签标识
+     */
+    @ApiOperation("根据标识查询分组标签详情")
+    @GetMapping("info/{tagId}")
+    @PreAuthorize("hasAuthority('prod:prodTag:info')")
+    public Result<ProdTag> loadProdTagInfo(@PathVariable Long tagId) {
+        ProdTag prodTag = prodTagService.getById(tagId);
+        return Result.success(prodTag);
+    }
 }
