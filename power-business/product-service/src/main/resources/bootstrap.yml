@@ -1,6 +1,6 @@
 spring:
   application:
-    name: manager-service
+    name: product-service
   cloud:
     nacos:
       server-addr: 192.168.49.128:8848
@@ -19,25 +19,14 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
     active: dev
-mybatis-plus:
-  global-config:
-    db-config:
-      update-strategy: not_empty #全局修改MyBatis字段更新策略
 
-#mybatis-plus:
-#  global-config:
-#    db-config: # 默认字段更新策略是not_null
-#      update-strategy: not_empty
----
-#server:
-#  port: 8081
 #swagger3:
 #  base-package: com.powernode.controller
 #  name: Dongchunhua-1225
 #  url: https://github.com/Dongchunhua1225/CartiGo
 #  email: haochen001225@gmail.com
-#  title: 后台管理系统-系统管理模块接口
-#  description: 实现后台管理系统的所有接口,根路径/manager-service
+#  title: 后台管理系统-产品管理模块接口
+#  description: 实现后台产品管理系统的所有接口,根路径/product-service
 #  license: powernode
 #  licenseUrl: https://github.com/Dongchunhua1225/CartiGo
 #  terms-of-service-url: https://github.com/Dongchunhua1225/CartiGo

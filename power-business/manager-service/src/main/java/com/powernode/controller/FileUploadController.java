@@ -53,12 +53,6 @@ public class FileUploadController {
         // 填写Object完整路径，完整路径中不能包含Bucket名称
         String objectName = newFolderName + "/" + newFileName + fileSuffix;
 
-
-        //String accessKeyId = aliyunOSSConfig.getAccessKey();
-        //String accessKeySecret = aliyunOSSConfig.getSecretKey();
-        System.out.println(aliyunOSSConfig.getAccessKeyId());
-        System.out.println(aliyunOSSConfig.getAccessKeySecret());
-
         OSS ossClient = new OSSClientBuilder().build(aliyunOSSConfig.getEndpoint(),
                 aliyunOSSConfig.getAccessKeyId(), aliyunOSSConfig.getAccessKeySecret());
 
