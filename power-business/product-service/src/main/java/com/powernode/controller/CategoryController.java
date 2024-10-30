@@ -8,9 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,5 +44,18 @@ public class CategoryController {
     public Result<List<Category>> loadFirstCategoryList() {
         List<Category> list = categoryService.queryFirstCategoryList();
         return Result.success(list);
+    }
+
+    /**
+     * 新增商品类目
+     *
+     * @param category 商品类目对象
+     */
+    @ApiOperation("新增商品类目")
+    @PostMapping
+    @PreAuthorize("hasAuthority('prod:category:save')")
+    public Result<String> saveCategory(@RequestBody Category category) {
+        Boolean saved = categoryService.saveCategory(category);
+        return Result.handle(saved);
     }
 }

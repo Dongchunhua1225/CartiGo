@@ -9,9 +9,12 @@ import com.powernode.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 @Service
 @CacheConfig(cacheNames = "com.powernode.service.impl.CategoryServiceImpl")
@@ -40,4 +43,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                                                     // == 0 说明这个一级类目此时不能用了
                 .orderByDesc(Category::getSeq));
     }
+
+    //新增商品类目
+    @Override
+    @Caching(evict = {
+            @CacheEvict(key = ProductConstants.ALL_CATEGORY_LIST_KEY),
+            @CacheEvict(key = ProductConstants.FIRST_CATEGORY_LIST_KEY)
+    }) //如果你要清楚多个缓存的话，不能两个evict直接叠加
+        //加一个caching用它的一个prop ‘evict’ = {将你要叠加的语句放里}
+    public Boolean saveCategory(Category category) {
+        category.setCreateTime(new Date());
+        category.setUpdateTime(new Date());
+
+        return categoryMapper.insert(category) > 0;
+    }
+
+    //
 }

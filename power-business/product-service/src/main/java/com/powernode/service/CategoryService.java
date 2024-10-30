@@ -12,4 +12,7 @@ public interface CategoryService extends IService<Category>{
 
     //查询系统商品一级类目
     List<Category> queryFirstCategoryList();
+
+    //新增商品类目
+    Boolean saveCategory(Category category);
 }
