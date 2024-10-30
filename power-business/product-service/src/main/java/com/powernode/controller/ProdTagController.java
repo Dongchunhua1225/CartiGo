@@ -72,4 +72,28 @@ public class ProdTagController {
         ProdTag prodTag = prodTagService.getById(tagId);
         return Result.success(prodTag);
     }
+
+    /**
+     * 修改商品分组标签信息
+     * @param prodTag 商品分组标签对象
+     */
+    @ApiOperation("修改商品分组标签信息")
+    @PutMapping
+    @PreAuthorize("hasAuthority('prod:prodTag:update')")
+    public Result<String> modifyProdTag(@RequestBody ProdTag prodTag) {
+        Boolean updated = prodTagService.modifyProdTag(prodTag);
+        return Result.handle(updated);
+    }
+
+    /**
+     * 根据标识删除商品分组标签
+     * @param tagId 分组标签标识
+     */
+    @ApiOperation("根据标识删除商品分组标签")
+    @DeleteMapping("{tagId}")
+    @PreAuthorize("hasAuthority('prod:prodTag:delete')")
+    public Result<String> removeProdTag(@PathVariable Long tagId) {
+        Boolean removed = prodTagService.removeById(tagId);
+        return Result.handle(removed);
+    }
 }

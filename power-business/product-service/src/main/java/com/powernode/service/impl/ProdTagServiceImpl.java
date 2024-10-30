@@ -28,4 +28,11 @@ public class ProdTagServiceImpl extends ServiceImpl<ProdTagMapper, ProdTag> impl
 
         return prodTagMapper.insert(prodTag) > 0;
     }
+
+    //修改商品分组标签信息
+    @Override
+    public Boolean modifyProdTag(ProdTag prodTag) {
+        prodTag.setUpdateTime(new Date());
+        return prodTagMapper.updateById(prodTag) > 0;
+    }
 }
