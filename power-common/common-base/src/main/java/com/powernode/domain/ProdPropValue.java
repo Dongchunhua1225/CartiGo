@@ -6,11 +6,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @ApiModel(description="")
 @Data
@@ -41,4 +42,5 @@ public class ProdPropValue implements Serializable {
     private Long propId;
 
     private static final long serialVersionUID = 1L;
+
 }

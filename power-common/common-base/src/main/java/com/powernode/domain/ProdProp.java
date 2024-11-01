@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.List;
 
 @ApiModel(description="")
 @Data
@@ -46,6 +48,11 @@ public class ProdProp implements Serializable {
     @TableField(value = "shop_id")
     @ApiModelProperty(value="店铺id")
     private Long shopId;
+
+    ////////////////多条件分页查询
+    @TableField(exist = false)
+    @ApiModelProperty(value="属性集合")
+    private List<ProdPropValue> prodPropValues;
 
     private static final long serialVersionUID = 1L;
 }
