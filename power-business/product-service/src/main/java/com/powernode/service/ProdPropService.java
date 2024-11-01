@@ -10,4 +10,10 @@ public interface ProdPropService extends IService<ProdProp>{
 
     //新增商品规格
     Boolean saveProdSpec(ProdProp prodProp);
+
+    //修改商品规格信息
+    Boolean modifyProdSpec(ProdProp prodProp);
+
+    //删除商品规格
+    Boolean removeProdSpecByPropId(Long propId);
 }

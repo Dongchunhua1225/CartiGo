@@ -56,4 +56,28 @@ public class ProdSpecController {
         Boolean saved = prodPropService.saveProdSpec(prodProp);
         return Result.handle(saved);
     }
+
+    /**
+     * 修改商品规格信息
+     * @param prodProp 商品属性对象
+     */
+    @ApiOperation("修改商品规格信息")
+    @PutMapping
+    @PreAuthorize("hasAuthority('prod:spec:update')")
+    public Result<String> modifyProdSpec(@RequestBody ProdProp prodProp) {
+        Boolean updated = prodPropService.modifyProdSpec(prodProp);
+        return Result.handle(updated);
+    }
+
+    /**
+     * 删除商品规格
+     * @param propId 属性标识
+     */
+    @ApiOperation("删除商品规格")
+    @DeleteMapping("{propId}")
+    @PreAuthorize("hasAuthority('prod:spec:delete')")
+    public Result<String> removeProdSpec(@PathVariable Long propId) {
+        Boolean removed = prodPropService.removeProdSpecByPropId(propId);
+        return Result.handle(removed);
+    }
 }

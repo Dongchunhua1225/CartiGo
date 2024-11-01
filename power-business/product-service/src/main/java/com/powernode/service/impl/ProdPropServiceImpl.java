@@ -10,7 +10,9 @@ import com.powernode.mapper.ProdPropMapper;
 import com.powernode.mapper.ProdPropValueMapper;
 import com.powernode.service.ProdPropService;
 import com.powernode.service.ProdPropValueService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@CacheConfig(cacheNames = "com.powernode.service.impl.ProdPropServiceImpl")
+@RequiredArgsConstructor
 public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> implements ProdPropService{
 
     @Autowired
@@ -32,6 +36,7 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
 
     //多条件分页查询商品规格
     @Override
+//    @Cacheable(key = "propValue")
     public Page<ProdProp> queryProdSpecPage(Long current, Long size, String propName) {
         //创建分页对象
         Page<ProdProp> page = new Page<>(current, size);
@@ -78,6 +83,7 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
     //1.新增商品属性对象 -> 属性id
     //2.批量添加商品属性值对象
     @Override
+//    @CacheEvict(key = "propValue")
     @Transactional(rollbackFor = Exception.class)
     public Boolean saveProdSpec(ProdProp prodProp) {
         //新增商品属性对象
@@ -103,6 +109,42 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
             }
         }
 
-        return count > 1;
+        return count > 0;
+    }
+
+    @Override
+//    @CacheEvict(key = "propValue")
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean modifyProdSpec(ProdProp prodProp) {
+        //获取属性id
+        Long prodId = prodProp.getPropId();
+
+        //先删除，不然不能添加新的
+        prodPropValueMapper.delete(new LambdaQueryWrapper<ProdPropValue>()
+                .eq(ProdPropValue::getPropId, prodId));
+
+        //获取新的属性值对象集合
+        List<ProdPropValue> prodPropValues = prodProp.getProdPropValues();
+
+        if(CollectionUtil.isNotEmpty(prodPropValues) && prodPropValues.size() != 0) {
+            prodPropValues.forEach(prodPropValue -> prodPropValue.setPropId(prodId));
+
+            prodPropValueService.saveBatch(prodPropValues);
+        }
+
+        //修改成功的话, 修改商品属性
+        return  prodPropMapper.updateById(prodProp) > 0;
+    }
+
+    @Override
+//    @CacheEvict(key = "propValue")
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean removeProdSpecByPropId(Long propId) {
+        //先根据id删除属性value
+        prodPropValueMapper.delete(new LambdaQueryWrapper<ProdPropValue>()
+                .eq(ProdPropValue::getPropId, propId));
+
+        //再删除属性对象
+        return prodPropMapper.deleteById(propId) > 0;
     }
 }
