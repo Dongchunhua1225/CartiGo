@@ -6,13 +6,15 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 商品
@@ -157,5 +159,24 @@ public class Prod implements Serializable {
     @ApiModelProperty(value="版本 乐观锁")
     private Integer version;
 
+    ////////////////////////新增
+    @TableField(exist = false)
+    @ApiModelProperty(value="配送方式")
+    private DeliveryModeVo delivery_mode;
+
+    @TableField(exist = false)
+    private List<Sku> skuList;
+
+    @TableField(exist = false)
+    private List<Long> tagList;
+
     private static final long serialVersionUID = 1L;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class DeliveryModeVo {
+        private Boolean hasShopDelivery;
+        private Boolean hasUserPickUp;
+    }
 }

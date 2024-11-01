@@ -1,8 +1,10 @@
 package com.powernode.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.powernode.domain.ProdProp;
+import com.powernode.domain.ProdPropValue;
 import com.powernode.model.Result;
 import com.powernode.service.ProdPropService;
 import com.powernode.service.ProdPropValueService;
@@ -12,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 商品规格管理控制层
@@ -79,5 +83,30 @@ public class ProdSpecController {
     public Result<String> removeProdSpec(@PathVariable Long propId) {
         Boolean removed = prodPropService.removeProdSpecByPropId(propId);
         return Result.handle(removed);
+    }
+
+    /**
+     * 查询系统商品属性集合
+     */
+    @ApiOperation("查询系统商品属性集合")
+    @GetMapping("list")
+    @PreAuthorize("hasAuthority('prod:spec:page')")
+    public Result<List<ProdProp>> loadProdPropList() {
+        List<ProdProp> prodProps = prodPropService.queryProdPropList();
+        return Result.success(prodProps);
+    }
+
+    /**
+     * 根据商品属性id查询属性值集合
+     * @param propId 商品属性id
+     */
+    @ApiOperation("根据商品属性id查询属性值集合")
+    @GetMapping("listSpecValue/{propId}")
+    @PreAuthorize("hasAuthority('prod:spec:page')")
+    public Result<List<ProdPropValue>> loadProdPropValues(@PathVariable Long propId) {
+        List<ProdPropValue> prodPropValues = prodPropValueService.list(new LambdaQueryWrapper<ProdPropValue>()
+                .eq(ProdPropValue::getPropId,propId)
+        );
+        return Result.success(prodPropValues);
     }
 }

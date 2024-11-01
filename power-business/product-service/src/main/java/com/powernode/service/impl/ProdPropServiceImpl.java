@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.powernode.constant.ProductConstants;
 import com.powernode.domain.ProdProp;
 import com.powernode.domain.ProdPropValue;
 import com.powernode.mapper.ProdPropMapper;
@@ -13,6 +14,8 @@ import com.powernode.service.ProdPropValueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -83,7 +86,7 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
     //1.新增商品属性对象 -> 属性id
     //2.批量添加商品属性值对象
     @Override
-//    @CacheEvict(key = "propValue")
+    @CacheEvict(key = ProductConstants.PROD_PROP_KEY)
     @Transactional(rollbackFor = Exception.class)
     public Boolean saveProdSpec(ProdProp prodProp) {
         //新增商品属性对象
@@ -113,7 +116,7 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
     }
 
     @Override
-//    @CacheEvict(key = "propValue")
+    @CacheEvict(key = ProductConstants.PROD_PROP_KEY)
     @Transactional(rollbackFor = Exception.class)
     public Boolean modifyProdSpec(ProdProp prodProp) {
         //获取属性id
@@ -137,7 +140,7 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
     }
 
     @Override
-//    @CacheEvict(key = "propValue")
+    @CacheEvict(key = ProductConstants.PROD_PROP_KEY)
     @Transactional(rollbackFor = Exception.class)
     public Boolean removeProdSpecByPropId(Long propId) {
         //先根据id删除属性value
@@ -146,5 +149,11 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
 
         //再删除属性对象
         return prodPropMapper.deleteById(propId) > 0;
+    }
+
+    @Override
+    @Cacheable(key = ProductConstants.PROD_PROP_KEY)
+    public List<ProdProp> queryProdPropList() {
+        return prodPropMapper.selectList(null);
     }
 }

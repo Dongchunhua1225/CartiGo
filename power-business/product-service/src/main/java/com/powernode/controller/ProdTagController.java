@@ -16,6 +16,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 分组标签管理控制层
  */
@@ -95,5 +97,17 @@ public class ProdTagController {
     public Result<String> removeProdTag(@PathVariable Long tagId) {
         Boolean removed = prodTagService.removeById(tagId);
         return Result.handle(removed);
+    }
+
+    //查询状态正常的商品分组标签集合
+    /**
+     * 查询状态正常的商品分组标签集合
+     */
+    @ApiOperation("查询状态正常的商品分组标签集合")
+    @GetMapping("listTagList")
+    @PreAuthorize("hasAuthority('prod:prodTag:page')")
+    public Result<List<ProdTag>> loadProdTagList() {
+        List<ProdTag> list = prodTagService.queryProdTagList();
+        return Result.success(list);
     }
 }

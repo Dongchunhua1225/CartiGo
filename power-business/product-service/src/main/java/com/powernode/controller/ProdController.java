@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 //商品管理控制层
 @Api(tags = "商品管理")
@@ -52,4 +49,19 @@ public class ProdController {
         );
         return Result.success(page);
     }
+
+    //新增商品
+/**
+        * 新增商品
+	 *
+             * @param prod 商品对象
+	 */
+    @ApiOperation("新增商品")
+    @PostMapping
+    @PreAuthorize("hasAuthority('prod:prod:save')")
+    public Result<String> saveProd(@RequestBody Prod prod) {
+        Boolean saved = prodService.saveProd(prod);
+        return Result.handle(saved);
+    }
+
 }
