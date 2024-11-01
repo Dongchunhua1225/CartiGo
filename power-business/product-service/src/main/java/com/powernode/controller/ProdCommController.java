@@ -66,4 +66,17 @@ public class ProdCommController {
         ProdComm prodComm = prodCommService.getById(id);
         return Result.success(prodComm);
     }
+
+    /**
+     * 回复和审核商品评论
+     *
+     *
+     */
+    @ApiOperation("回复和审核商品评论")
+    @PutMapping
+    @PreAuthorize("hasAuthority('prod:prodComm:update')")
+    public Result<String> replyAndExamineProdComm(@RequestBody ProdComm prodComm) {
+        Boolean updated = prodCommService.replyAndExamineProdComm(prodComm);
+        return Result.handle(updated);
+    }
 }
