@@ -161,8 +161,7 @@ public class Prod implements Serializable {
 
     ////////////////////////新增
     @TableField(exist = false)
-    @ApiModelProperty(value="配送方式")
-    private DeliveryModeVo delivery_mode;
+    private DeliveryModeVo deliveryModeVo;
 
     @TableField(exist = false)
     private List<Sku> skuList;

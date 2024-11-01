@@ -64,4 +64,31 @@ public class ProdController {
         return Result.handle(saved);
     }
 
+    /**
+     * 根据id查询商品详情
+     *
+     * @param prodId 商品id
+     */
+    @ApiOperation("根据标识查询商品详情")
+    @GetMapping("info/{prodId}")
+    @PreAuthorize("hasAuthority('prod:prod:info')")
+    public Result<Prod> loadProdInfo(@PathVariable Long prodId) {
+        Prod prod = prodService.queryProdInfoById(prodId);
+        return Result.success(prod);
+    }
+
+    /**
+     * 修改商品信息
+     *
+     * @param prod 商品对象
+     * @return
+     */
+    @ApiOperation("修改商品信息")
+    @PutMapping
+    @PreAuthorize("hasAuthority('prod:prod:update')")
+    public Result<String> modifyProdInfo(@RequestBody Prod prod) {
+        Boolean updated = prodService.modifyProdInfo(prod);
+        return Result.handle(updated);
+    }
+
 }
