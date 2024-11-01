@@ -1,6 +1,7 @@
 package com.powernode.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -110,6 +111,11 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements Pr
         //先查商品详情
         Prod prod = prodMapper.selectById(prodId);
 
+        //防止下面查询Sku和tag的时候报错NullPointer
+        if(ObjectUtil.isNull(prod)) {
+            return prod;
+        }
+
         //查询他和分组标签关系的集合（bridge table）
         List<ProdTagReference> prodTagReferenceList = prodTagReferenceMapper.selectList(new LambdaQueryWrapper<ProdTagReference>()
                 .eq(ProdTagReference::getProdId, prodId));
@@ -173,5 +179,19 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements Pr
         skuService.updateBatchById(skuList);
 
         return prodMapper.updateById(prod) > 0;
+    }
+
+    //删除商品
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean removeProdById(Long prodId) {
+        // 删除商品与分组标签的关系
+        prodTagReferenceMapper.delete(new LambdaQueryWrapper<ProdTagReference>()
+                .eq(ProdTagReference::getProdId, prodId));
+
+        // 根据商品id删除商品sku对象
+        skuMapper.delete(new LambdaQueryWrapper<Sku>().eq(Sku::getProdId, prodId));
+
+        return prodMapper.deleteById(prodId) > 0;
     }
 }

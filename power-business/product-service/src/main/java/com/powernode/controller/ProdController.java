@@ -91,4 +91,18 @@ public class ProdController {
         return Result.handle(updated);
     }
 
+    /**
+     * 删除商品
+     *
+     * @param prodId 商品id
+     * @return
+     */
+    @ApiOperation("删除商品")
+    @DeleteMapping("{prodId}")
+    @PreAuthorize("hasAuthority('prod:prod:delete')")
+    public Result<String> removeProd(@PathVariable Long prodId) {
+        Boolean removed = prodService.removeProdById(prodId);
+        return Result.handle(removed);
+    }
+
 }

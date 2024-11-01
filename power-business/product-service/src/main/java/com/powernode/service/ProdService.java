@@ -12,4 +12,7 @@ public interface ProdService extends IService<Prod>{
 
     //修改商品信息
     Boolean modifyProdInfo(Prod prod);
+
+    //删除商品
+    Boolean removeProdById(Long prodId);
 }
