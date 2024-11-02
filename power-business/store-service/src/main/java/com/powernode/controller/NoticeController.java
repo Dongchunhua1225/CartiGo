@@ -4,7 +4,6 @@ package com.powernode.controller;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.powernode.constant.BusinessEnum;
 import com.powernode.domain.Notice;
 import com.powernode.model.Result;
 import com.powernode.service.NoticeService;
@@ -70,6 +69,20 @@ public class NoticeController {
     public Result<String> saveNotice(@RequestBody Notice notice) {
         Boolean saved = noticeService.saveNotice(notice);
         return Result.handle(saved);
+    }
+
+    /**
+     * 根据id查询公告详情
+     *
+     * @param noticeId 公告id
+     * @return
+     */
+    @ApiOperation("根据id查询公告详情")
+    @GetMapping("info/{noticeId}")
+    @PreAuthorize("hasAuthority('shop:notice:info')")
+    public Result<Notice> loadNoticeInfo(@PathVariable Long noticeId) {
+        Notice notice = noticeService.getById(noticeId);
+        return Result.success(notice);
     }
 
 }
