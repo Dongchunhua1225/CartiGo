@@ -14,6 +14,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 //商品管理控制层
 @Api(tags = "商品管理")
 @RequestMapping("prod/prod")
@@ -103,6 +105,14 @@ public class ProdController {
     public Result<String> removeProd(@PathVariable Long prodId) {
         Boolean removed = prodService.removeProdById(prodId);
         return Result.handle(removed);
+    }
+
+    //////////////////////////////////Feign接口////////////////////////////
+    @GetMapping("getProdListByIds")
+    public Result<List<Prod>> getProdListByIds(@RequestParam List<Long> prodIdList){
+        List<Prod> prodList = prodService.listByIds(prodIdList);
+
+        return Result.success(prodList);
     }
 
 }

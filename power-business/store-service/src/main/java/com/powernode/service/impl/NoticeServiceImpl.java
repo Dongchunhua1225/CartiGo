@@ -22,4 +22,11 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         notice.setUpdateTime(new Date());
         return noticeMapper.insert(notice) > 0;
     }
+
+    @Override
+    public Boolean modifyNotice(Notice notice) {
+        notice.setUpdateTime(new Date());
+        return noticeMapper.updateById(notice) > 0;
+    }
+
 }

@@ -6,4 +6,7 @@ public interface NoticeService extends IService<Notice>{
 
     //新增公告
     Boolean saveNotice(Notice notice);
+
+    //修改公告内容
+    Boolean modifyNotice(Notice notice);
 }

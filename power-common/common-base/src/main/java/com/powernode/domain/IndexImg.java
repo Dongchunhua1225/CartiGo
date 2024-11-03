@@ -6,12 +6,13 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 主页轮播图
@@ -99,6 +100,15 @@ public class IndexImg implements Serializable {
     @TableField(value = "`type`")
     @ApiModelProperty(value="关联商品类型，0已关联商品,-1未关联商品")
     private Integer type;
+
+    ///////////////查询轮播图详情//////////////////////
+    @TableField(exist = false)
+    @ApiModelProperty(value="商品图片")
+    private String pic;
+
+    @TableField(exist = false)
+    @ApiModelProperty(value="商品名称")
+    private String prodName;
 
     private static final long serialVersionUID = 1L;
 }

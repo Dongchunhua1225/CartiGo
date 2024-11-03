@@ -85,4 +85,32 @@ public class NoticeController {
         return Result.success(notice);
     }
 
+    /**
+     * 修改公告内容
+     *
+     * @param notice 公告对象
+     * @return
+     */
+    @ApiOperation("修改公告内容")
+    @PutMapping
+    @PreAuthorize("hasAuthority('shop:notice:update')")
+    public Result<String> modifyNotice(@RequestBody Notice notice) {
+        Boolean modified = noticeService.modifyNotice(notice);
+        return Result.handle(modified);
+    }
+
+    /**
+     * 根据公告标识删除公告
+     *
+     * @param noticeId 公告id
+     * @return
+     */
+    @ApiOperation("根据公告标识删除公告")
+    @DeleteMapping("{noticeId}")
+    @PreAuthorize("hasAuthority('shop:notice:delete')")
+    public Result<String> removeNotice(@PathVariable Long noticeId) {
+        Boolean removed = noticeService.removeById(noticeId);
+        return Result.handle(removed);
+    }
+
 }
