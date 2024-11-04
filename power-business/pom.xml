@@ -16,6 +16,7 @@
         <module>product-service</module>
         <module>store-service</module>
         <module>member-service</module>
+        <module>order-service</module>
     </modules>
 
     <properties>
