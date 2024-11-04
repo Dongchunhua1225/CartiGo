@@ -6,13 +6,15 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 订单表
@@ -191,6 +193,10 @@ public class Order implements Serializable {
     @TableField(value = "close_type")
     @ApiModelProperty(value="订单关闭原因 1-超时未支付 2-退款关闭 4-买家取消 15-已通过货到付款交易")
     private Integer closeType;
+
+    ////////////////////////////////////新增//////////
+    @TableField(exist = false)
+    private List<OrderItem> orderItems;
 
     private static final long serialVersionUID = 1L;
 }
