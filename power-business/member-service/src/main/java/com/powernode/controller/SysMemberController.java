@@ -1,0 +1,78 @@
+package com.powernode.controller;
+
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.powernode.domain.Member;
+import com.powernode.model.Result;
+import com.powernode.service.MemberService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+
+//后台管理系统维护会员控制层
+@Api(tags = "后台管理系统会员接口管理")
+@RequestMapping("admin/user")
+@RestController
+@RequiredArgsConstructor
+public class SysMemberController {
+
+    @Autowired
+    private MemberService memberService;
+
+    @ApiOperation("多条件分页查询会员")
+    @GetMapping("page")
+    @PreAuthorize("hasAuthority('admin:user:page')")
+    public Result<Page<Member>> loadMemberPage(@RequestParam Long current,
+                                               @RequestParam Long size,
+                                               @RequestParam(required = false) String nickName,
+                                               @RequestParam(required = false) Integer status) {
+        // 创建会员分页对象
+        Page<Member> page = new Page<>(current, size);
+        // 多条件分页查询会员
+        page = memberService.page(page, new LambdaQueryWrapper<Member>()
+                .eq(ObjectUtil.isNotNull(status), Member::getStatus, status)
+                .like(StringUtils.hasText(nickName), Member::getNickName, nickName)
+                .orderByDesc(Member::getCreateTime)
+        );
+        return Result.success(page);
+    }
+
+    /**
+     * 根据标识查询会员信息
+     *
+     * @param id 会员id
+     * @return
+     */
+    @ApiOperation("根据标识查询会员信息")
+    @GetMapping("info/{id}")
+    @PreAuthorize("hasAuthority('admin:user:info')")
+    public Result<Member> loadMemberInfo(@PathVariable Long id) {
+        Member member = memberService.getOne(new LambdaQueryWrapper<Member>()
+                .select(Member::getId, Member::getOpenId, Member::getPic, Member::getNickName, Member::getStatus)
+                .eq(Member::getId, id));
+        return Result.success(member);
+    }
+
+    /**
+     * 修改会员状态
+     *
+     * @param member 会员对象（id,status）
+     * @return
+     */
+    @ApiOperation("修改会员状态")
+    @PutMapping
+    @PreAuthorize("hasAuthority('admin:user:update')")
+    public Result<String> modifyMemberStatus(@RequestBody Member member) {
+        member.setUpdateTime(new Date());
+        Boolean updated = memberService.updateById(member);
+        return Result.handle(updated);
+    }
+
+}
