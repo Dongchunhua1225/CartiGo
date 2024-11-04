@@ -14,7 +14,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 //后台管理系统维护会员控制层
 @Api(tags = "后台管理系统会员接口管理")
@@ -75,4 +77,25 @@ public class SysMemberController {
         return Result.handle(updated);
     }
 
+    /**
+     * 批量删除会员
+     */
+    @ApiOperation("批量删除会员")
+    @DeleteMapping
+    @PreAuthorize("hasAuthority('admin:user:delete')")
+    public Result<String> removeMembers(@RequestBody List<Integer> ids) {
+        //创建会员对象集合
+        List<Member> memberList = new ArrayList<>();
+
+        //循环遍历会员id集合
+        ids.forEach(id -> {
+            Member member = new Member();
+            member.setId(id);
+            member.setStatus(-1);
+            memberList.add(member);
+        });
+
+        Boolean removed = memberService.updateBatchById(memberList);
+        return Result.handle(removed);
+    }
 }
