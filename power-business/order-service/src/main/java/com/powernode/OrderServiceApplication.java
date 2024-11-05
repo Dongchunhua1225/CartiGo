@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //订单业务模块启动类
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients //远程调用 开启feign客户端
 public class OrderServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(OrderServiceApplication.class, args);

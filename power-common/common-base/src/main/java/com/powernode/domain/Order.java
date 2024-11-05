@@ -198,5 +198,11 @@ public class Order implements Serializable {
     @TableField(exist = false)
     private List<OrderItem> orderItems;
 
+    @TableField(exist = false)
+    private MemberAddr userAddrOrder;
+
+    @TableField(exist = false)
+    private String nickName;
+
     private static final long serialVersionUID = 1L;
 }

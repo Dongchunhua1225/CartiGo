@@ -98,4 +98,14 @@ public class SysMemberController {
         Boolean removed = memberService.updateBatchById(memberList);
         return Result.handle(removed);
     }
+
+
+    ///////////////////feign 接口//////////////////////////////////////////////////////
+    @GetMapping("getNickNameByOpenId")
+    public Result<String> getNickNameByOpenId(@RequestParam String openId){
+        Member member = memberService.getOne(new LambdaQueryWrapper<Member>()
+                .eq(Member::getOpenId, openId).select(Member::getNickName));
+
+        return Result.success(member.getNickName());
+    }
 }
