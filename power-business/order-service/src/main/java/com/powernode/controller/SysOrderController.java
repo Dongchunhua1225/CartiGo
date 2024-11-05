@@ -1,6 +1,8 @@
 package com.powernode.controller;
 
 
+import com.alibaba.excel.EasyExcel;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.powernode.domain.Order;
 import com.powernode.model.Result;
@@ -13,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单业务模块控制层
@@ -64,6 +67,35 @@ public class SysOrderController {
     public Result<Order> loadOrderDetail(@PathVariable Long orderNumber) {
         Order order = orderService.queryOrderDetailByOrderNumber(orderNumber);
         return Result.success(order);
+    }
+
+    //利用阿里巴巴的EasyExcel
+    /**
+     * 导出销售记录
+     *
+     * @return
+     */
+    @ApiOperation("导出销售记录")
+    @GetMapping("soldExcel")
+    @PreAuthorize("hasAuthority('order:order:soldExcel')")
+    //public void exportSoleOrderRecordExcel(HttpServletResponse response) throws IOException {
+    public Result<String> exportSoleOrderRecordExcel() {
+        // 查询所有销售记录
+        List<Order> list = orderService.list(new LambdaQueryWrapper<Order>().orderByDesc(Order::getCreateTime));
+
+        String fileName = "D:\\power-mall\\" + System.currentTimeMillis() + ".xlsx";
+        EasyExcel.write(fileName, Order.class).sheet("模板111").doWrite(list);
+
+//        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+//        response.setCharacterEncoding(UTF_8);
+//
+//        String fileName = "订单销售记录";
+//        response.setHeader(Header.CONTENT_DISPOSITION.getValue(),
+//                "attachment;filename*=utf-8''" + fileName + ".xlsx");
+//        EasyExcel.write(response.getOutputStream(), Order.class)
+//                .autoCloseStream(Boolean.FALSE)
+//                .sheet().doWrite(list);
+        return Result.success(null);
     }
 
 }
