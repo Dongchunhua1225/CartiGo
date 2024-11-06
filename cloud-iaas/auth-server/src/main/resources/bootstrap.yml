@@ -20,6 +20,13 @@ spring:
           - application-dev.yml
   profiles:
     active: dev
+#wx:
+#  appid: wx1cbf2325a5652fa9
+#  secret: ed861e6001a4dde11fd7ecd69539b28f
+#  url: https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code
+#  pwd: $2a$10$0HyZZ6yrBaIiH93Qu2zon.sMPYMwpjv7RpefeR7MlRrAEnH4/jVBC
+
+
 #mybatis-plus:
 #  global-config:
 #    db-config:
