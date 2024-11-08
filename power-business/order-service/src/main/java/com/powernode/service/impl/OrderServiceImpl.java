@@ -15,6 +15,8 @@ import com.powernode.mapper.OrderItemMapper;
 import com.powernode.mapper.OrderMapper;
 import com.powernode.model.Result;
 import com.powernode.service.OrderService;
+import com.powernode.util.AuthUtils;
+import com.powernode.vo.OrderStatusCount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -111,5 +113,34 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setNickName(nickName);
 
         return order;
+    }
+
+
+    //查询会员订单各状态数量
+    @Override
+    public OrderStatusCount queryMemberOrderStatusCount() {
+        //获取会员openid
+        String openid = AuthUtils.getMemberOpenId();
+
+        //根据会员openid查询会员待支付订单数量
+        Long unPay = orderMapper.selectCount(new LambdaQueryWrapper<Order>()
+                .eq(Order::getOpenId, openid)
+                .eq(Order::getStatus, 1)); //在数据库就规定好了1代表没支付
+
+        //根据会员openid查询会员待发货订单数量
+        Long payed = orderMapper.selectCount(new LambdaQueryWrapper<Order>()
+                .eq(Order::getOpenId, openid)
+                .eq(Order::getStatus, 2)); //在数据库就规定好了2代表支付没发货
+
+        //根据会员openid查询会员待收获订单数
+        Long consignment = orderMapper.selectCount(new LambdaQueryWrapper<Order>()
+                .eq(Order::getOpenId, openid)
+                .eq(Order::getStatus, 3)); //在数据库就规定好了3代表发货了但没收货
+
+        return OrderStatusCount.builder()
+                .unPay(unPay)
+                .payed(payed)
+                .consignment(consignment)
+                .build();
     }
 }
