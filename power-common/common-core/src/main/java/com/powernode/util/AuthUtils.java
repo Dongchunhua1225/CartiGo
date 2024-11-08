@@ -25,4 +25,9 @@ public class AuthUtils {
     public static Set<String> getLoginUserPerms() {
         return getLoginUser().getPerms();
     }
+
+    //获取security容器中认证用户对象的openid
+    public static String getMemberOpenId(){
+        return getLoginUser().getOpenid();
+    }
 }
