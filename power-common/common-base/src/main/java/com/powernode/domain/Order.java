@@ -233,5 +233,10 @@ public class Order implements Serializable {
     @ExcelIgnore
     private String nickName;
 
+    //微信小程序会员订单规定的命名
+    @TableField(exist = false)
+    @ExcelIgnore
+    private List<OrderItem> orderItemDtos;
+
     private static final long serialVersionUID = 1L;
 }

@@ -17,4 +17,7 @@ public interface OrderService extends IService<Order>{
 
     //查询会员订单各状态数量
     OrderStatusCount queryMemberOrderStatusCount();
+
+    //分页查询会员订单列表
+    Page<Order> queryMemberOrderPage(Long current, Long size, Long status);
 }

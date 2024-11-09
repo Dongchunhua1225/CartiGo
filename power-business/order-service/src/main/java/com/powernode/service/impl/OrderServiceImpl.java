@@ -143,4 +143,49 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 .consignment(consignment)
                 .build();
     }
+
+    //分页查询会员订单列表
+    @Override
+    public Page<Order> queryMemberOrderPage(Long current, Long size, Long status) {
+        //获取会员openid
+        String openid = AuthUtils.getMemberOpenId();
+
+        Page<Order> page = new Page<>(current, size);
+
+        //分页查询会员订单列表
+        page = orderMapper.selectPage(page, new LambdaQueryWrapper<Order>()
+                .eq(Order::getOpenId, openid)
+                .eq(status != 0, Order::getStatus, status)
+                .orderByDesc(Order::getCreateTime));
+
+        //从订单分页对象中获取订单记录集合
+        List<Order> orderList = page.getRecords();
+        //判断是否有值
+        if(CollectionUtil.isEmpty(orderList) || orderList.size() == 0) {
+            //咩有值
+            return page;
+        }
+        //有值 -> 从订单list中获取订单number list
+        List<String> numList = orderList.stream().map(Order::getOrderNumber).collect(Collectors.toList());
+
+        //根据numList的orderNumber查询OrderItem集合
+        List<OrderItem> itemList = orderItemMapper.selectList(new LambdaQueryWrapper<OrderItem>()
+                .in(OrderItem::getOrderNumber, numList));
+
+        //循环遍历订单集合
+        orderList.forEach(order -> {
+            //从所有商品条目对象集合中过滤出和当前订单一致的
+            List<OrderItem> finalList = itemList.stream()
+                    .filter(item ->
+                            item.getOrderNumber()
+                            .equals(order.getOrderNumber())
+                    )
+                    .collect(Collectors.toList());
+
+            //将收集来的finalList传回order中
+            order.setOrderItemDtos(finalList);
+        });
+
+        return page;
+    }
 }
