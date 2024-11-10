@@ -26,4 +26,7 @@ public interface OrderService extends IService<Order>{
 
     //会员确认收货
     Boolean receiptMemberOrder(String orderNumber);
+
+    //会员删除订单
+    Boolean removeMemberOrderByOrderNumber(String orderNumber);
 }

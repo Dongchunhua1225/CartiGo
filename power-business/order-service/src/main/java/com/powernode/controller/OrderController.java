@@ -67,4 +67,15 @@ public class OrderController {
         Boolean receipted = orderService.receiptMemberOrder(orderNumber);
         return Result.handle(receipted);
     }
+
+    /**
+     * 会员删除订单
+     *
+     */
+    @ApiOperation("会员删除订单")
+    @DeleteMapping("{orderNumber}")
+    public  Result<String> removeMemberOrder(@PathVariable String orderNumber) {
+        Boolean removed = orderService.removeMemberOrderByOrderNumber(orderNumber);
+        return Result.handle(removed);
+    }
 }

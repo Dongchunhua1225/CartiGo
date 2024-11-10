@@ -156,6 +156,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         page = orderMapper.selectPage(page, new LambdaQueryWrapper<Order>()
                 .eq(Order::getOpenId, openid)
                 .eq(status != 0, Order::getStatus, status)
+                .eq(Order::getDeleteStatus, 0) //查询未删除的 --> deleteStatus == 0
                 .orderByDesc(Order::getCreateTime));
 
         //从订单分页对象中获取订单记录集合
@@ -227,6 +228,17 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setUpdateTime(new Date());
         order.setFinallyTime(new Date());
         order.setStatus(5);
+
+        return orderMapper.update(order, new LambdaQueryWrapper<Order>().eq(Order::getOrderNumber, orderNumber)) > 0;
+    }
+
+    //会员删除订单
+    @Override
+    public Boolean removeMemberOrderByOrderNumber(String orderNumber) {
+        //创建一个新的订单对象
+        Order order = new Order();
+        order.setUpdateTime(new Date());
+        order.setDeleteStatus(1);
 
         return orderMapper.update(order, new LambdaQueryWrapper<Order>().eq(Order::getOrderNumber, orderNumber)) > 0;
     }
