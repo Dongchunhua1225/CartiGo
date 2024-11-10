@@ -9,10 +9,7 @@ import com.powernode.vo.OrderStatusCount;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 微信小程序订单业务控制层
@@ -58,5 +55,16 @@ public class OrderController {
     public Result<Order> loadMemberOrderDetail(@RequestParam String orderNumber) {
         Order order = orderService.queryMemberOrderDetailByOrderNumber(orderNumber);
         return Result.success(order);
+    }
+
+    /**
+     * 会员确认收货
+     *
+     */
+    @ApiOperation("会员确认收货")
+    @PutMapping("receipt/{orderNumber}")
+    public Result<String> receiptMemberOrder(@PathVariable String orderNumber) {
+        Boolean receipted = orderService.receiptMemberOrder(orderNumber);
+        return Result.handle(receipted);
     }
 }

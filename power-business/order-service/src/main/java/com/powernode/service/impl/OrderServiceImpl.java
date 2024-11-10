@@ -218,4 +218,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         return order;
     }
+
+    //会员确认收货
+    @Override
+    public Boolean receiptMemberOrder(String orderNumber) {
+        //创建一个新的订单对象
+        Order order = new Order();
+        order.setUpdateTime(new Date());
+        order.setFinallyTime(new Date());
+        order.setStatus(5);
+
+        return orderMapper.update(order, new LambdaQueryWrapper<Order>().eq(Order::getOrderNumber, orderNumber)) > 0;
+    }
 }

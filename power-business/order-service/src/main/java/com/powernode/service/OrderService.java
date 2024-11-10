@@ -23,4 +23,7 @@ public interface OrderService extends IService<Order>{
 
     //根据Order NUmber 查询订单信息
     Order queryMemberOrderDetailByOrderNumber(String orderNumber);
+
+    //会员确认收货
+    Boolean receiptMemberOrder(String orderNumber);
 }
