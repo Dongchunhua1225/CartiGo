@@ -20,4 +20,7 @@ public interface OrderService extends IService<Order>{
 
     //分页查询会员订单列表
     Page<Order> queryMemberOrderPage(Long current, Long size, Long status);
+
+    //根据Order NUmber 查询订单信息
+    Order queryMemberOrderDetailByOrderNumber(String orderNumber);
 }

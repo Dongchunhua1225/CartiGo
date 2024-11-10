@@ -48,4 +48,15 @@ public class OrderController {
         Page<Order> page = orderService.queryMemberOrderPage(current, size, status);
         return Result.success(page);
     }
+
+    /**
+     * 根据Order NUmber 查询订单信息
+     *
+     */
+    @ApiOperation("根据Order NUmber 查询订单信息")
+    @GetMapping("orderDetail")
+    public Result<Order> loadMemberOrderDetail(@RequestParam String orderNumber) {
+        Order order = orderService.queryMemberOrderDetailByOrderNumber(orderNumber);
+        return Result.success(order);
+    }
 }

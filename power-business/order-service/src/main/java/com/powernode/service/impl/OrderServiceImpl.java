@@ -188,4 +188,34 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         return page;
     }
+
+    //根据Order NUmber 查询订单信息
+    @Override
+    public Order queryMemberOrderDetailByOrderNumber(String orderNumber) {
+        //根据ordernumber查询订单信息
+        Order order = orderMapper.selectOne(new LambdaQueryWrapper<Order>().eq(Order::getOrderNumber, orderNumber));
+
+        //验证该订单是否存在
+        if(ObjectUtil.isNull(order)) {
+            //理应是存在的，如果走到这不存在那就说明有问题了
+            throw new BusinessException("订单编号有误");
+        }
+
+        //远程调用 -> 查询订单收获地址
+        Result<MemberAddr> addrResult = orderMemberFeign.getMemberAddrById(order.getAddrOrderId());
+        //判断是否有问题
+        if(addrResult.getCode().equals(BusinessEnum.OPERATION_FAIL.getCode())){
+            throw new BusinessException("远程调用查询收货地址信息失败");
+        }
+
+        //订单收货地址
+        MemberAddr addr = addrResult.getData();
+        order.setUserAddrDto(addr);
+
+        //根据ordernumber查询订单商品条目对象集合
+        List<OrderItem> itemList = orderItemMapper.selectList(new LambdaQueryWrapper<OrderItem>().eq(OrderItem::getOrderNumber, orderNumber));
+        order.setOrderItemDtos(itemList);
+
+        return order;
+    }
 }

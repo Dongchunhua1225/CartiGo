@@ -238,5 +238,10 @@ public class Order implements Serializable {
     @ExcelIgnore
     private List<OrderItem> orderItemDtos;
 
+    //微信小程序会员会员收货地址的命名
+    @TableField(exist = false)
+    @ExcelIgnore
+    private MemberAddr userAddrDto;
+
     private static final long serialVersionUID = 1L;
 }
