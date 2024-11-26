@@ -60,6 +60,34 @@ public class MemberAddrController {
         return Result.success(memberAddr);
     }
 
+    /**
+     * 修改会员收货地址信息
+     *
+     * @param memberAddr 收货地址对象
+     * @return
+     */
+    @ApiOperation("修改会员收货地址信息")
+    @PutMapping
+    public Result<String> modifyMemberAddrInfo(@RequestBody MemberAddr memberAddr) {
+        String openId = AuthUtils.getMemberOpenId();
+        Boolean modified = memberAddrService.modifyMemberAddrInfo(memberAddr, openId);
+        return Result.handle(modified);
+    }
+
+    /**
+     * 删除会员收货地址
+     *
+     * @param addrId 收货地址id
+     * @return
+     */
+    @ApiOperation("删除会员收货地址")
+    @DeleteMapping("deleteAddr/{addrId}")
+    public Result<String> removeMemberAddr(@PathVariable Long addrId) {
+        String openId = AuthUtils.getMemberOpenId();
+        Boolean removed = memberAddrService.removeMemberAddrById(addrId, openId);
+        return Result.handle(removed);
+    }
+
     ////////////////////////////Feign 接口////////////////////////////////////////////////////
 
 

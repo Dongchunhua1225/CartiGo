@@ -12,4 +12,10 @@ public interface MemberAddrService extends IService<MemberAddr>{
 
     //新增会员收货地址
     Boolean saveMemberAddr(MemberAddr memberAddr, String openId);
+
+    //修改会员收货地址信息
+    Boolean modifyMemberAddrInfo(MemberAddr memberAddr, String openId);
+
+    //"删除会员收货地址
+    Boolean removeMemberAddrById(Long addrId, String openId);
 }
