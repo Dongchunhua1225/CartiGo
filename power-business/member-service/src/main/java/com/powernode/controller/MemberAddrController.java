@@ -49,6 +49,17 @@ public class MemberAddrController {
         return Result.handle(saved);
     }
 
+    /**
+     * 根据addressid查询信息
+     *
+     */
+    @ApiOperation("查询会员收货地址详情")
+    @GetMapping("addrInfo/{addrId}")
+    public Result<MemberAddr> loadMemberAddrInfo(@PathVariable Long addrId) {
+        MemberAddr memberAddr = memberAddrService.getById(addrId);
+        return Result.success(memberAddr);
+    }
+
     ////////////////////////////Feign 接口////////////////////////////////////////////////////
 
 
