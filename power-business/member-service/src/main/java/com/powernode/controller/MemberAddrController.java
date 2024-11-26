@@ -88,6 +88,18 @@ public class MemberAddrController {
         return Result.handle(removed);
     }
 
+    /**
+     * 更改会员默认收货地址
+     *
+     */
+    @ApiOperation("更改会员默认收货地址")
+    @PutMapping("defaultAddr/{newAddrId}")
+    public Result<String> modifyMemberDefaultAddr(@PathVariable Long newAddrId) {
+        String openId = AuthUtils.getMemberOpenId();
+        Boolean modified = memberAddrService.modifyMemberDefaultAddrInfo(newAddrId, openId);
+        return Result.handle(modified);
+    }
+
     ////////////////////////////Feign 接口////////////////////////////////////////////////////
 
 

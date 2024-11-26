@@ -18,4 +18,7 @@ public interface MemberAddrService extends IService<MemberAddr>{
 
     //"删除会员收货地址
     Boolean removeMemberAddrById(Long addrId, String openId);
+
+    //更改会员默认收货地址
+    Boolean modifyMemberDefaultAddrInfo(Long newAddrId, String openId);
 }

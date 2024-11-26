@@ -94,4 +94,19 @@ public class MemberAddrServiceImpl extends ServiceImpl<MemberAddrMapper, MemberA
         //说明当前收获地址不是默认收货地址，直接删除
         return memberAddrMapper.deleteById(addrId) > 0;
     }
+
+    @Override
+    @CacheEvict(key = "#openId")
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean modifyMemberDefaultAddrInfo(Long newAddrId, String openId) {
+        MemberAddr memberAddrDefault = memberAddrMapper.selectOne(new LambdaQueryWrapper<MemberAddr>()
+                .eq(MemberAddr::getOpenId, openId)
+                .eq(MemberAddr::getCommonAddr,1));
+        memberAddrDefault.setCommonAddr(0);
+        memberAddrMapper.updateById(memberAddrDefault);
+
+        MemberAddr memberAddr = memberAddrMapper.selectById(newAddrId);
+        memberAddr.setCommonAddr(1);
+        return memberAddrMapper.updateById(memberAddr) > 0;
+    }
 }
