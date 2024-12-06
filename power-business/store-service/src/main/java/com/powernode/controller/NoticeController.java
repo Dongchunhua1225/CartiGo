@@ -136,4 +136,14 @@ public class NoticeController {
         return Result.success(noticeAllList);
     }
 
+    /**
+     * 查询公告详情 by id
+     **/
+    @ApiOperation("查询公告详情 by id")
+    @GetMapping("detail/{noticeId}")
+    public Result<Notice> loadWXNoticeInfo(@PathVariable Long noticeId) {
+        Notice notice = noticeService.getById(noticeId);
+        return Result.success(notice);
+    }
+
 }
