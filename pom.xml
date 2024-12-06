@@ -20,6 +20,8 @@
         <module>cloud-iaas</module>
         <module>power-business</module>
         <module>power-common</module>
+        <module>search-service</module>
+        <module>power-business/search-service</module>
     </modules>
 
     <properties>

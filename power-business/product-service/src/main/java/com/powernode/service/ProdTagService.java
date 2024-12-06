@@ -15,4 +15,7 @@ public interface ProdTagService extends IService<ProdTag>{
 
     //查询状态正常的商品分组标签集合
     List<ProdTag> queryProdTagList();
+
+    //查询小程序商品分组标签
+    List<ProdTag> queryWxProdTagList();
 }

@@ -110,4 +110,17 @@ public class ProdTagController {
         List<ProdTag> list = prodTagService.queryProdTagList();
         return Result.success(list);
     }
+
+    ///////////////////////微信小程序、、、、、、、、、、、、、、、
+    /**
+            * 查询小程序商品分组标签
+	 * @return
+             */
+    //    prod/prodTag/prodTagList
+    @ApiOperation("查询小程序商品分组标签")
+    @GetMapping("prodTagList")
+    public Result<List<ProdTag>> loadWxProdTagList() {
+        List<ProdTag> prodTags =  prodTagService.queryWxProdTagList();
+        return Result.success(prodTags);
+    }
 }

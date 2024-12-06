@@ -14,4 +14,7 @@ public interface ProductConstants {
 
     //商品属性数据存放在redis的key
     String PROD_PROP_KEY = "'prodProp'";
+
+    //微信小程序商品分许标签再redis中的key
+    String WX_PROD_TAG = "'wxProdTag'";
 }
