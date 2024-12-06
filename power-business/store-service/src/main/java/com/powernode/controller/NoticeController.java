@@ -15,6 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 公告业务管理控制层
  */
@@ -111,6 +113,27 @@ public class NoticeController {
     public Result<String> removeNotice(@PathVariable Long noticeId) {
         Boolean removed = noticeService.removeById(noticeId);
         return Result.handle(removed);
+    }
+
+    ///////////////微信小程序/////////////////////
+    /**
+     * 查询小程序置顶公告列表
+     **/
+    @ApiOperation("查询小程序置顶公告列表")
+    @GetMapping("topNoticeList")
+    public Result<List<Notice>> loadTopWXNoticeList() {
+        List<Notice> noticeList = noticeService.queryTopWXNoticeList();
+        return Result.success(noticeList);
+    }
+
+    /**
+     * 查询小程序所有公告列表
+     **/
+    @ApiOperation("查询小程序所有公告列表")
+    @GetMapping("noticeList")
+    public Result<List<Notice>> loadWXAllNoticeList() {
+        List<Notice> noticeAllList = noticeService.queryWXAllNoticeNotice();
+        return Result.success(noticeAllList);
     }
 
 }
