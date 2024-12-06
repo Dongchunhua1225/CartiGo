@@ -108,4 +108,16 @@ public class IndexImgController {
         return Result.handle(removed);
     }
 
+    ///////////////////////微信小程序//////////////////////
+    /**
+     * 查询小程序轮播图列表
+     * @return
+     */
+    @ApiOperation("查询小程序轮播图列表")
+    @GetMapping("indexImgs")
+    public Result<List<IndexImg>> loadWxIndexImgList() {
+        List<IndexImg> indexImgList = indexImgService.queryWxIndexImgList();
+        return Result.success(indexImgList);
+    }
+
 }

@@ -18,4 +18,7 @@ public interface IndexImgService extends IService<IndexImg>{
 
     //批量删除轮播图
     Boolean removeIndexImgByIds(List<Long> imgIds);
+
+    //查询小程序轮播图列表
+    List<IndexImg> queryWxIndexImgList();
 }

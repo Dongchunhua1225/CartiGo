@@ -1,8 +1,10 @@
 package com.powernode.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.powernode.constant.BusinessEnum;
+import com.powernode.constant.StoreConstants;
 import com.powernode.domain.IndexImg;
 import com.powernode.domain.Prod;
 import com.powernode.ex.handler.BusinessException;
@@ -11,13 +13,18 @@ import com.powernode.mapper.IndexImgMapper;
 import com.powernode.model.Result;
 import com.powernode.service.IndexImgService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = "com.powernode.service.impl.IndexImgServiceImpl")
 public class IndexImgServiceImpl extends ServiceImpl<IndexImgMapper, IndexImg> implements IndexImgService{
 
     @Autowired
@@ -27,6 +34,8 @@ public class IndexImgServiceImpl extends ServiceImpl<IndexImgMapper, IndexImg> i
     private StoreProdFeign storeProdFeign;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(key = StoreConstants.WX_INDEX_IMG_KEY)
     public Boolean saveIndexImg(IndexImg indexImg) {
         indexImg.setShopId(1L);
         indexImg.setCreateTime(new Date());
@@ -77,12 +86,25 @@ public class IndexImgServiceImpl extends ServiceImpl<IndexImgMapper, IndexImg> i
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(key = StoreConstants.WX_INDEX_IMG_KEY)
     public Boolean modifyIndexImg(IndexImg indexImg) {
         return indexImgMapper.updateById(indexImg) > 0;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(key = StoreConstants.WX_INDEX_IMG_KEY)
     public Boolean removeIndexImgByIds(List<Long> imgIds) {
         return indexImgMapper.deleteBatchIds(imgIds) == imgIds.size();
+    }
+
+    //查询小程序轮播图列表
+    @Override
+    @Cacheable(key = StoreConstants.WX_INDEX_IMG_KEY)
+    public List<IndexImg> queryWxIndexImgList() {
+        return indexImgMapper.selectList(new LambdaQueryWrapper<IndexImg>()
+                .eq(IndexImg::getStatus, 1)
+                .orderByDesc(IndexImg::getSeq));
     }
 }
